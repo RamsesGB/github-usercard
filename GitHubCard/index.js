@@ -1,8 +1,20 @@
+import axios from 'axios';
 /*
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
+
+axios
+  .get(' https://api.github.com/users/RamsesGB')
+  .then((res) => {
+    let data = res;
+    console.log(res.data);
+    return data;
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
@@ -49,6 +61,58 @@ const followersArray = [];
       </div>
     </div>
 */
+
+function cardComponent() {
+  let cardContainer = document.querySelector('.cards');
+
+  let cardDiv = document.createElement('div');
+  cardDiv.className = 'card';
+
+  let userImg = document.createElement('img');
+  // userImg.setAttribute('src', data.data['avatar_url']);
+
+  let cardInfoDiv = document.createElement('div');
+  cardInfoDiv.className = 'card-info';
+
+  let userNameTitle = document.createElement('h3');
+  userNameTitle.className = 'name';
+
+  let userName = document.createElement('p');
+  userName.className = 'username';
+
+  let userLocation = document.createElement('p');
+
+  let profileParagraph = document.createElement('p');
+  profileParagraph.textContent = 'Profile:';
+
+  let profileLink = document.createElement('a');
+
+  let followerCount = document.createElement('p');
+
+  let followingCount = document.createElement('p');
+
+  let userBio = document.createElement('p');
+
+  cardContainer.appendChild(cardDiv);
+
+  cardDiv.appendChild(userImg);
+  cardDiv.appendChild(cardInfoDiv);
+
+  cardInfoDiv.appendChild(userNameTitle);
+  cardInfoDiv.appendChild(userName);
+  cardInfoDiv.appendChild(userLocation);
+  cardInfoDiv.appendChild(profileParagraph);
+
+  profileParagraph.appendChild(profileLink);
+
+  cardInfoDiv.appendChild(followerCount);
+  cardInfoDiv.appendChild(followingCount);
+  cardInfoDiv.appendChild(userBio);
+
+  return cardContainer;
+}
+
+console.log(cardComponent());
 
 /*
   List of LS Instructors Github username's:
