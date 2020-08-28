@@ -5,17 +5,6 @@ import axios from 'axios';
     https://api.github.com/users/<your name>
 */
 
-axios
-  .get(' https://api.github.com/users/RamsesGB')
-  .then((res) => {
-    let data = res;
-    console.log(res.data);
-    return data;
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
@@ -40,7 +29,14 @@ axios
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = [
+  'https://api.github.com/users/RamsesGB',
+  'https://api.github.com/users/tetondan',
+  'https://api.github.com/users/dustinmyers',
+  'https://api.github.com/users/justsml',
+  'https://api.github.com/users/luishrd',
+  'https://api.github.com/users/bigknell',
+];
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -62,36 +58,67 @@ const followersArray = [];
     </div>
 */
 
-function cardComponent() {
+for (let i = 0; i < followersArray.length - 1; i++) {
+  axios
+    .get(followersArray[i])
+    .then((res) => {
+      cardComponent(res.data);
+      console.log(res.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
+function cardComponent(data) {
   let cardContainer = document.querySelector('.cards');
 
+  //<div class="card">
   let cardDiv = document.createElement('div');
   cardDiv.className = 'card';
 
+  //<img>
   let userImg = document.createElement('img');
-  // userImg.setAttribute('src', data.data['avatar_url']);
+  userImg.setAttribute('src', data.avatar_url);
 
+  //<div class="card-info">
   let cardInfoDiv = document.createElement('div');
   cardInfoDiv.className = 'card-info';
 
+  //<h3 lass="name">
   let userNameTitle = document.createElement('h3');
   userNameTitle.className = 'name';
+  userNameTitle.textContent = data.name;
 
+  // <p class="username">{users user name}</p>
   let userName = document.createElement('p');
   userName.className = 'username';
+  userName.textContent = data.login;
 
+  // <p>Location: {users location}</p>
   let userLocation = document.createElement('p');
+  userName.textContent = data.location;
 
+  // <p>Profile:
   let profileParagraph = document.createElement('p');
-  profileParagraph.textContent = 'Profile:';
+  profileParagraph.textContent = 'Profile: ';
 
+  // <a href={address to users github page}>{address to users github page}</a>
   let profileLink = document.createElement('a');
+  profileLink.setAttribute('href', data.html_url);
+  profileLink.textContent = data.html_url;
 
+  //
   let followerCount = document.createElement('p');
+  followerCount.textContent = `Followers: ${data.followers}`;
 
+  //
   let followingCount = document.createElement('p');
+  followingCount.textContent = `Following: ${data.following}`;
 
+  // <p>Bio: {users bio}</p>
   let userBio = document.createElement('p');
+  userBio.textContent = `Bio: ${data.bio}`;
 
   cardContainer.appendChild(cardDiv);
 
@@ -111,8 +138,6 @@ function cardComponent() {
 
   return cardContainer;
 }
-
-console.log(cardComponent());
 
 /*
   List of LS Instructors Github username's:
